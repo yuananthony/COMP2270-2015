@@ -1,0 +1,144 @@
+Anthony Yuan
+
+Number representation
+
+1		0
+2		1
+4		2
+8		3
+16		4
+32		5
+64		6
+128		7
+256		8
+512		9
+1024	10
+2048	11
+
+1) 
+0b11000110110
+
+2)
+748
+
+3)
+0xC01A15BAD
+
+4)
+0o4155
+
+5)
+0b011 001 011 011 111
+
+6)
+0b1011 1010 1101 1111 0000 0000 1101
+0o1353370015
+
+7)
+0b110001101111
+6366
+
+8)
+0b111110001
+0b000001110
+
+9)
+0b1110000100.1100
+
+10)
+01
+02
+03
+11
+12
+13
+21
+22
+23
+33
+
+Circuit design
+
+1)
+A |B |A<=B
+--|--|----
+00|00|1
+00|01|1
+00|10|1
+00|11|1
+01|00|0
+01|01|1
+01|10|1
+01|11|1
+10|00|0
+10|01|0
+10|10|1
+10|11|1
+11|00|0
+11|01|0
+11|10|0
+11|11|1
+
+2)
+(A0*A1'B0*B1)+(A0'*A1B0*B1)+(A0'*A1B0*B1')+(A0'*A1'B0*B1)+(A0'*A1'B0*B1')+(A0'*A1'B0'*B1)=0
+
+3)
+X|Y|Z|minority
+-|-|-|--------
+0|0|0|1
+0|0|1|1
+0|1|0|1
+0|1|1|0
+1|0|0|1
+1|0|1|0
+1|1|0|0
+1|1|1|0
+
+4)
+(x'*y*z)+(x*y'*z)+(x+y+z')+(x+y+z)=0
+
+Boolean Algebra
+
+1) c+(b*c)'=1
+	c+(b'+c')=1 DeMorgan's
+	c+b'+c'=1 Associative
+	b'+1=1 Complement
+	1=1 Identity
+	
+2) (a+c)*(a*d+a*d')+a*c+c=a+c
+	(a+c)*(a*(d+d'))+a*c+c=a+c Distributive
+	(a+c)*(a*(1))+a*c+c=a+c Complement
+	(a+c)*(a)+a*c+c=a+c Identity
+	((a*a)+(a*c))+a*c+c=a+c Distributive
+	((a)+(a*c))+a*c+c=a+c Idempotence
+	(a)+a*c+c=a+c Absorption
+	a+c=a+c Absorption
+	
+3) a'*(a+b)+(b+a*a)*(a+b')
+	((a'*a)+(a'*b))+(b+a*a)*(a+b') Distributive
+	((0)+(a'*b))+(b+a*a)*(a+b') Complement
+	((0)+(a'*b))+(b+(a))*(a+b') Idempotence
+	(a'*b)+(b+(a))*(a+b') Identity
+	(a'*b)+(a+(b*b')) Distributive
+	(a'*b)+(a+(0)) Complement
+	(a'*b)+a Identity
+	(a+a')*(a+b) Distributive
+	(0)*(a+b) Complement
+	(a+b) Identity
+	
+4) (a'*b')+(a'*b)+(a*b')=(a*b)'
+	((b')*(a'+a))+(a'*b)=(a*b)' Distributive
+	((b')*(1))+(a'*b)=(a*b)' Complement
+	(b')+(a'*b)=(a*b)' Identity
+	(a'+b')*(b'+b)=(a*b)' Distributive
+	(a'+b')*(1)=(a*b)' Complement
+	(a'+b')=(a*b)'Identity
+	(a*b)'=(a*b)' DeMorgan
+	
+Dual Form
+
+1) 
+	(a*b)'*(c+a')*0
+
+2)
+	0*(0+1')
