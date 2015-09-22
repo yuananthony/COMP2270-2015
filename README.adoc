@@ -1,5 +1,9 @@
 = COMP2270: Computer Architecture
 
+NOTE: https://gitlab.com/lawrancej/COMP2270-2015/blob/master/scribbles/scribbles.adoc[All whiteboard scribbles are here]
+
+NOTE: The class midterm is coming on October 2.
+
 == September 1
 
 === Introduce yourself
@@ -375,6 +379,23 @@ The signed byte 0b11100110 is -128 + 64 + 32 + 4 + 2 = -26 in decimal.
 
 *Challenge*: What is -0b101010 in two's complement? Assume signed bytes (8 bits).
 
+*Challenge*: Look at this Java program. In Java, `int` is a 32-bit two's complement
+number. What do you think happens? Run it, and think about what you see.
+
+----
+public class Main {
+	public static void main(String[] args) {
+		int i = 0;
+		while (i >= 0) {
+			i++;
+		}
+		System.out.println("WTF?!?");
+		System.out.println(Integer.toBinaryString(i));
+		System.out.println(i);
+	}
+}
+----
+
 == September 4
 
 Truth tables, logic expressions, Venn diagrams, logic circuits, function tables, MUX and ROM configurations can represent logic functions.
@@ -575,3 +596,416 @@ Study this function table carefully in relation to the truth table above.
 We shrank down a truth table without losing information by noticing that a &oplus; b
 is the same as b if a is false, and a &oplus; b is the inverse of b if a is true.
 
+== September 8
+
+Truth table -> logic expression
+
+== September 10
+
+=== Boolean algebra
+
+Boolean algebra is very similar to plain algebra, but some laws are unique to Boolean algebra.
+For example, the distributive law, has a form unique to Boolean algebra.
+
+[format="csv",output="header"]
+|===
+Law, Form, Dual form
+**Identity**, a * 1 = a                   , a + 0 = a
+**Commutative**    , a * b = b * a               , a + b = b + a
+**Associative**    , (a * b) * c = a * (b * c)   , (a + b) + c = a + (b + c)
+Identity           , a * 0 = 0                   , a + 1 = 1
+Distributive       , a * (b + c) = a * b + a * c , a + (b * c) = (a + b) * (a + c)
+Idempotence        , a * a = a                   , a + a = a
+Absorption         , a + a * b = a               , a * (a + b) = a
+Complement         , 0' = 1                      , 1' = 0
+Complement         , a * a' = 0                  , a + a' = 1
+Involution         , a'' = a                     , a'' = a
+DeMorgan's         , (a + b)' = a' * b'          , (a * b)' = a' + b'
+|===
+
+=== Dual forms
+
+All laws of Boolean algebra come in two forms, the law and its **dual form**.
+The dual form of any valid equation in Boolean algebra is also true.
+
+To find the dual form of a logic expression:
+
+. Evaluate the original expression and put parentheses around all subexpressions
+. Swap 1 with 0 (and vice versa)
+. Swap AND with OR (and vice versa)
+. Leave complements (NOT) alone
+
+Notice how the steps above convert the form of a law to its dual form?
+
+*Example*: Find the dual form of Z'+X*Y
+
+This is Z'*(X+Y).
+
+*Challenge*: Find the dual form of (a + b)' + c * a' + 1
+
+=== Simplification
+
+Apply the laws of Boolean algebra to an expression or equation to simplify/prove it.
+This is the sort of thing that's easier said than done, and practice will help.
+
+Hint: Work slowly and methodically: picture yourself working your way through a maze.
+Starting with the original expression, apply one law at a time until you arrive at the answer.
+At each step, you may choose many possible paths based on the laws you apply.
+
+*Example*: Show X*Y'*Z + X*Y*Z' + X*Y*Z = X*(Y+Z)
+
+[format="csv",output="header"]
+|===
+X*Y'*Z + X*Y*Z' + X*Y*Z = X*(Y+Z), Original expression
+X*(Y'*Z + Y*Z' + Y*Z) = X*(Y+Z), Distributive law
+X*(Z*(Y' + Y) + Y*Z') = X*(Y+Z), Distributive law
+X*(Z*(1) + Y*Z') = X*(Y+Z), Complements
+X*(Z + Y*Z') = X*(Y+Z), Identity
+X*(Z + Z*Y + Y*Z') = X*(Y+Z), Absorption
+X*(Z + Y*(Z + Z')) = X*(Y+Z), Distributive law
+X*(Z + Y*(1)) = X*(Y+Z), Complements
+X*(Z + Y) = X*(Y+Z), Identity
+X*(Y + Z) = X*(Y+Z), Commutative law
+|===
+
+*Challenge*: Show (a * b)' * (a' + b) * (b' + b) = a'
+
+=== Gray codes
+
+A Gray code (also known as a reflected binary code) is a way of encoding binary numbers so that every increment changes only a single bit.
+
+When we count in binary, we repeat 01 over and over again in the least significant place value.
+When we count in gray codes, we repeat 0110 over and over again in the rightmost bit.
+
+[format="csv",output="header"]
+|===
+Binary,Decimal,Gray code
+0000,0,0000
+0001,1,0001
+0010,0,0011
+0011,1,0010
+0100,0,0110
+0101,1,0111
+0110,0,0101
+0111,1,0100
+1000,0,1100
+1001,1,1101
+1010,0,1111
+1011,1,1110
+1100,0,1010
+1101,1,1011
+1110,0,1001
+1111,1,1000
+|===
+
+=== Binary -> Gray code
+
+. Shift the number to the right by one bit
+. Bitwise XOR the number and the original number
+
+In C, this is: `(num >> 1) ^ num`
+
+*Example*: What is the Gray code for 0b10110?
+
+----
+10110 num
+01011 num >> 1
+11101 bitwise XOR (Gray code)
+----
+
+What's the point?
+
+=== Karnaugh maps (K-Maps)
+
+Karnaugh maps:
+
+* are an alternate way of representing truth tables and function tables
+* layout a single output function and use the horizontal and vertical axes of a table for the values of the inputs
+* use Gray codes to ensure that related values go together spatially in the table
+* can help you find simple logic expressions
+
+http://www.ee.calpoly.edu/media/uploads/resources/KarnaughExplorer_1.html[Lets examine Karnaugh maps in action]
+
+== September 11
+
+Lab 1. *Due*: By next Friday at the latest.
+Save your work in a file called `lab1.txt` in your repo.
+
+----
+cd ~/COMP2270-2015
+touch lab1.txt
+----
+
+NOTE: Use
+http://notepad-plus-plus.org/download/v6.6.9.html[a proper text editor],
+https://atom.io[such as this].
+
+=== Number representation
+
+. Convert 1590 to binary.
+. Convert 0b101110110 to decimal.
+. Convert 0b1100 0000 0001 1010 0001 0101 1011 1010 1101 to hexadecimal.
+. Convert 0b100 001 101 101 to octal.
+. Convert 0o31337 to binary.
+. Convert 0xBADF00D to binary and then to octal.
+. Convert 0o6157 to binary and then to decimal.
+. Convert 497 to binary. Then, use two's complement to convert 497 to -497 in binary.
+. Convert 900.79 to binary up to the 1/16ths spot.
+. Count from 0 through 10 in ternary (base 3). Note: the algorithm for counting is similar regardless of the number base. Show the place values.
+
+=== Circuit design
+
+. Let A and B be two 2-bit binary numbers (i.e., A1 A0 and B1 B0). Write out a truth table for A less than or equal to B. For example, 0b10 is less than or equal to 0b11, so the output for that row should be true.
+. Write out the equivalent logic expression for the previous answer.
+. Write out the truth table for the minority circuit (it's true when the minority of X, Y, and Z are true).
+. Write out the equivalent logic expression for the previous answer.
+
+=== Boolean algebra
+
+Use the laws of Boolean algebra.
+
+. Show c + (b * c)' = 1
+. Show (a + c) * (a * d + a * d') + a * c + c = a + c
+. Simplify a' * (a + b) + (b + a * a) * (a + b')
+. Show (a' * b') + (a' * b) + (a * b') = (a * b)'
+
+=== Dual form
+
+Find the dual form.
+
+. (a + b)' + c * a' + 1
+. 1 + 1 * 0'
+
+=== How to submit work
+
+Stage -> Commit -> Push
+
+----
+cd ~/COMP2270-2015
+touch lab1.txt
+git add lab1.txt
+git commit -m "Added lab 1 solution."
+git push origin master
+----
+
+== September 15
+
+=== Function tables
+
+Function tables are a way to compact down a truth table by removing variable(s) from the input columns and placing it into the output function.
+Function tables are so called because the outputs are no longer merely just 0 or 1, but also **any function** of input variables.
+
+=== Example
+
+Here's the truth table for a &oplus; b:
+
+[format="csv", options="header"]
+|===
+a   , b   , a &oplus; b
+0   , 0   , 0
+0   , 1   , 1
+1   , 0   , 1
+1   , 1   , 0
+|===
+
+We can condense this down to this function table, by freeing variable b:
+
+[format="csv", options="header"]
+|===
+a   , a &oplus; b
+0   , b
+1   , b'
+|===
+
+Notice how when a is false, the output function is the same as b.
+When a is true, the output function is the inverse of b.
+
+=== Multiplexers
+
+Multiplexers (MUX) are circuits that redirect one of several inputs to a single output based on the value of the selector.
+That is, the output corresponds to the selected input.
+
+In this respect, multiplexers are equivalent to switch/case statements.
+
+----
+boolean Four1MUX(byte selector, boolean input0, boolean input1, boolean input2, boolean input3) {
+    switch(selector) {
+        case 0: return input0;
+        case 1: return input1;
+        case 2: return input2;
+        case 3: return input3;
+    }
+    return false;
+}
+----
+
+The function table for a 4-1 MUX (4 input, 1 output multiplexer) is as follows:
+
+[format="csv", options="header"]
+|===
+S1,S0,Output
+0,0,Input0
+0,1,Input1
+1,0,Input2
+1,1,Input3
+|===
+
+Select bits S1 and S0 represent the most and least significant bits of S (respectively) in binary. 
+
+=== Truth/function table to multiplexer
+
+To implement a combination logic function with a multiplexer, the number of rows (excluding the header) in the truth/function table must equal the number of inputs to the multiplexer.
+If your truth table has more rows than the multiplexer has inputs, write out a function table with the same number of inputs as the multiplexer equivalent to the truth table.
+
+. Align the outputs of your table to the inputs of the multiplexer.
+. The select bits will correspond to the input variables.
+. Ta-da!
+
+== September 17
+
+=== Combinational vs. Sequential logic
+
+At this point, everything we've talked about has concerned *combinational logic.*
+In combinational logic, outputs are functions of inputs.
+In other words, combinational logic has no memory.
+
+Today, we'll talk about *sequential logic.*
+In sequential logic, outputs are functions of inputs and *prior outputs.*
+Put another way, sequential logic is combinational logic + memory.
+
+=== Latches
+
+Latches are a single bit memory device.
+We can construct a latch using two NAND gates or two NOR gates.
+We have two inputs, S' and R', and an output Q.
+These are fed as input to the separate gates, leaving each gate with an empty pin for another input.
+The other input to each gate is the output of the other gate.
+Thus, the gates are cross-connected to each other, so the output is literally a function of inputs and prior outputs.
+
+In a latch, we can describe the behavior using a *characteristic table*, similar to a truth table.
+In a characteristic table, we describe the behavior of the circuit.
+
+(SR)' NAND latch characteristic table
+
+[format="csv",output="header"]
+|===
+S',R',Q
+0,0,Restricted state (here be dragons)
+0,1,Q=1 (Assign Q to 1)
+1,0,Q=0 (Assign Q to 0)
+1,1,No change
+|===
+
+Try it out for yourself.
+
+Latches are so called because they are *level-triggered.*
+Level-triggered means that the level (hi or lo voltage) of the input is what causes the value of Q (the memory) to change.
+
+=== Flip-flops
+
+Flip-flops, like latches, are a single bit memory device.
+Unlike latches, flip-flops are *edge-triggered.*
+Edge-triggered means that the transition from one input to another is what causes the value of the memory to change.
+There are two kinds of edge: rising edge (positive edge) and falling edge (negative edge), corresponding to the transition from low to hi and hi to lo, respectively.
+
+Flip-flops are made from latches, but with extra circuitry to make it edge-triggered.
+The circuitry itself takes advantage of solid-state physics to achieve the desired effect.
+Just as the speed of sound varies based on the medium (e.g., air, water), or the speed of light varies based on the medium (e.g., vacuum, fiber-optics, air), the speed at which electrons flow through a circuit varies based on the medium.
+Electrons flow at nearly the speed of light through good conductors such as copper, but flow slightly slower through semiconductors such as silicon (known as a *gate propagation delay* ).
+
+The expression x'+x is always equal to 1, but the circuit implementing this isn't always equal to 1, because of gate propagation delays.
+
+=== Registers
+
+A register is a multiple-bit memory device.
+Registers are multiple flip-flops chained together to store things like integers, characters, and such.
+When you declare a variable, like int i = 0, the compiler allocates i to a register and sets the value of that register.
+Most CPUs have at least two registers in them.
+
+== September 18
+
+=== Lab 2: Combinational circuit design
+
+Implement a full adder (a + b + cin) using two 4-1 multiplexers (one multiplexer for carry out, one multiplexer for sum, using the same input variables).
+
+[format="csv",output="header"]
+|===
+Carry-in,A,B,Sum (A+B),Carry-out
+0,0,0,0,0
+0,0,1,1,0
+0,1,0,1,0
+0,1,1,0,1
+1,0,0,1,0
+1,0,1,0,1
+1,1,0,0,1
+1,1,1,1,1
+|===
+
+=== Sequential design: Even/Odd number of zeroes and ones
+
+image:http://lawrancej.github.io/COMP278-2014/lab-instructions/lab5.svg[Vending machine state transition diagram]
+
+. Answer these questions about the state machine above.
+.. How many bits for state will you need?
+.. How many input bits will you need?
+. Then, map states to bits, and map inputs to bits.
+. Write out a state-transition table.
+. Finally, program a ROM to do said thing.
+
+=== Vending machine
+
+image:http://lawrancej.github.io/COMP278-2014/lab-instructions/lab5vending.svg[Vending machine state transition diagram]
+
+. Answer these questions about the state machine above.
+.. How many bits for state will you need?
+.. How many input bits will you need?
+. Then, map states to bits, and map inputs to bits. 
+. Write out a state-transition table.
+Since 25 cents is the final state, what happens if we get extra currency?
+Or, what happens if we get foreign currency?
+Feel free to transition to a "bogus" state (or states) for these purposes.
+. Finally, use a ROM to implement said thing.
+
+When you are done, save your work and do the following:
+
+----
+cd ~/COMP2270-2015
+git add lab2solution.*           # Stage your changes to the next commit
+git commit -am "Lab 2 complete." # Record your changes locally
+git push origin master           # Push your work
+----
+
+== September 22
+
+Continue Lab 2.
+
+----
+cd ~/COMP2270-2015
+git pull upstream master
+# If you see the word CONFLICT
+git mergetool
+----
+
+== September 24
+
+Introduce CPU design in Logisim.
+
+== September 25
+
+Assembly programming the CPU.
+
+== September 29
+
+Midterm review.
+
+== October 1
+
+Midterm review.
+
+== October 2
+
+Midterm
+
+== October 9
+
+Modify the CPU. 
