@@ -1,0 +1,39 @@
+SUM
+
+1. 
+	int sum(int length, int[] array);
+	{
+		int sum = 0;
+		for(int i = 0; i < length; i++)
+		{
+			sum = sum + array[i];
+		}
+		return sum;
+	}
+	
+2.
+
+	r1 is length 
+	r2 is sum
+	r3 is pointer to array
+	r4 is const 1
+	ARRAY STARTS AT 81
+	
+	MOV R1, 70
+	MOV R2, 71
+	MOV R4, 72
+	LOAD R3, 80
+	ADD R3, R3, R4
+	ADD R2, R2, R3
+	SUB R1, R1, R4
+	JZN R1, 04
+	
+3.
+	7170
+	7271
+	7472
+	c380
+	0334
+	0223
+	1114
+	9104
