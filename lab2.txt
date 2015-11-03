@@ -1,0 +1,89 @@
+Anthony Yuan
+
+Lab 2
+
+Combinational circuit design
+
+
+Sequential design: Even/Odd number of zeroes and ones 
+
+1)
+	a. You would need 2 bits of state
+	b. You would need 1 bit of input
+	
+2)
+	state	|	bits		inputs	|	bits
+	----------------		----------------
+	0 even, |					0   |    0
+	1 even  |  00 (0)			1   |    1
+	-----------------
+	0 odd,  |
+	1 even  |  01 (1)
+	-----------------
+	0 odd,  |	
+	1 odd   |  10 (2)
+	-----------------
+	0 even, |
+	1 odd   |  11 (3)
+3)
+
+	current state | input | next state
+	----------------------------------
+			0	  |	  0   |		1
+			0	  |   1   |     3
+			1     |   0   |     0
+			1     |   1   |     2
+			2     |   0   |     3
+			2     |   1   |     1
+			3     |   0   |     2
+			3     |   1   |     0
+	
+Vending machine
+
+1)
+	a. You would need 3 bits of state
+	b. You would need 2 bits of input
+	
+2)
+	state	|	bits	inputs	|	bits
+	----------------	----------------
+	0 cents |	000		nickle	|	00
+	5 cents |   001		dime	|	01
+	10 cents|	010		quarter |	10
+	15 cents|	011		bogus	|	11
+	20 cents|	100
+	25 cents|	101
+	bogus	|	110
+	
+3)
+	current state	|	input	|	next state
+	------------------------------------------
+		000			|	00		|	001	(1)
+		000			|	01		|	010	(2)
+		000			|	10		|	101	(5)
+		000			|	11		|	110	(6)
+		001			|	00		|	010	(2)
+		001			|	01		|	011	(3)
+		001			|	10		|	110	(6)
+		001			|	11		|	110	(6)
+		010			|	00		|	011	(3)
+		010			|	01		|	100	(4)
+		010			|	10		|	110	(6)
+		010			|	11		|	110	(6)
+		011			|	00		|	100	(4)
+		011			|	01		|	101	(5)
+		011			|	10		|	110	(6)
+		011			|	11		|	110	(6)
+		100			|	00		|	101	(5)
+		100			|	01		|	110	(6)
+		100			|	10		|	110	(6)
+		100			|	11		|	110	(6)
+		101			|	00		|	110	(6)
+		101			|	01		|	110	(6)
+		101			|	10		|	110	(6)
+		101			|	11		|	110	(6)
+		110			|	00		|	110	(6)
+		110			|	01		|	110	(6)
+		110			|	10		|	110	(6)
+		110			|	11		|	110	(6)
+		
